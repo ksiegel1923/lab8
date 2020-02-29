@@ -106,14 +106,17 @@ module MakeStack (Element: SERIALIZE) : (STACK with type element = Element.t) =
       el :: s
 
     let pop_helper (s : stack) : (element * stack) =
+      match s with
       | [] -> raise Empty
       | h :: t -> (h, t)
 
     let top (s : stack) : element =
+      match s with
       | [] -> raise Empty
       | h :: _ -> h
 
     let pop (s : stack) : stack =
+      match s with
       | [] -> raise Empty
       | _ :: t -> t
 
@@ -130,7 +133,7 @@ module MakeStack (Element: SERIALIZE) : (STACK with type element = Element.t) =
       let string_join x y = Element.serialize y
                   ^ (if x <> "" then ":" ^ x else "") in
       fold_left string_join "" s
-end ;;
+  end ;;
 
 (*......................................................................
 Exercise 1B: Now, make a module `IntStack` by applying the functor
@@ -167,7 +170,7 @@ module IntStringSerialize =
     type t = (int * string)
     let serialize (n, s) =
       "(" ^ string_of_int n ^ ",'" ^ s ^ "')"
-end ;;
+  end ;;
 
 module IntStringStack =
   MakeStack(IntStringSerialize);;
