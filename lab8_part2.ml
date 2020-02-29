@@ -118,19 +118,19 @@ module MakeStack (Element: SERIALIZE) : (STACK with type element = Element.t) =
       | _ :: t -> t
 
     let map (f : element -> element) (s : stack) : stack =
-      List.map s
+      List.map f s
 
     let filter (f : element -> bool) (s : stack) : stack =
-      List.filter s
+      List.filter f s
 
     let fold_left (f : 'a -> element -> 'a) (init : 'a) (s : stack) : 'a =
-      List.fold_left s
+      List.fold_left f init s
 
     let serialize (s : stack) : string =
       let string_join x y = Element.serialize y
                   ^ (if x <> "" then ":" ^ x else "") in
       fold_left string_join "" s
-  end ;;
+end ;;
 
 (*......................................................................
 Exercise 1B: Now, make a module `IntStack` by applying the functor
